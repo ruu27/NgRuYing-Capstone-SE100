@@ -4,7 +4,12 @@ export default function StockList() {
   const { stocks } = useStocks()
   if (stocks.length === 0) return <p className="empty-message">No stocks added yet.</p>
 
-  const formatCurrency = (num) => `$${num.toFixed(2)}`
+  const formatCurrency = (num) => {
+    if (num < 0) {
+      return `-$${Math.abs(num).toFixed(2)}`
+    }
+    return `$${num.toFixed(2)}`
+  }
   const formatDate = (id) => new Date(id).toLocaleString("en-GB")
 
   const totalSpend = stocks.reduce((sum, s) => sum + s.quantity * s.purchasePrice, 0)
@@ -58,7 +63,9 @@ export default function StockList() {
               )
             })}
             <tr>
-              <td colSpan={2} style={{ padding: "6px", fontWeight: "bold" }}>Total</td>
+              <td colSpan={2} style={{ padding: "6px", fontWeight: "bold" }}>
+                Total
+              </td>
               <td style={{ padding: "6px", fontWeight: "bold" }}>{formatCurrency(totalSpend)}</td>
               <td style={{ padding: "6px", fontWeight: "bold", color: totalProfitLoss >= 0 ? "green" : "red" }}>
                 {formatCurrency(totalProfitLoss)}
@@ -76,33 +83,28 @@ export default function StockList() {
             const shareLabel = quantity === 1 ? "share" : "shares"
 
             return (
-              <div
-                key={id}
-                className="stock-item"
-              >
+              <div key={id} className="stock-item">
                 {/* Timestamp */}
-                <div className='timestamp'>
-                  {formatDate(id)}
-                </div>
-                
+                <div className="timestamp">{formatDate(id)}</div>
+
                 {/* Stock symbol */}
                 <div className="stock-symbol">
                   <p>{symbol}</p>
                   {/* Stock details */}
                   <div className="stock-details">
-                    <p>{quantity} {shareLabel} @ {formatCurrency(purchasePrice)}</p>
+                    <p>
+                      {quantity} {shareLabel} @ {formatCurrency(purchasePrice)}
+                    </p>
                     <p>Current: {formatCurrency(currentPrice)}</p>
                   </div>
                   {/* Profit / Loss */}
-                  <div className='stock-profit-loss'>
+                  <div className="stock-profit-loss">
                     Profit / Loss{" "}
                     <span style={{ fontWeight: "bold", color: profitLoss >= 0 ? "green" : "red" }}>
                       {formatCurrency(profitLoss)}
                     </span>
                   </div>
                 </div>
-
-                
               </div>
             )
           })}
