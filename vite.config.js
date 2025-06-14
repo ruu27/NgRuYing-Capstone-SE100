@@ -4,5 +4,9 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base:"/NgRuYing-Capstone-SE100/"
+  base: process.env.NODE_ENV === 'production' ? '/NgRuYing-Capstone-SE100/' : '/',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  }
 })
