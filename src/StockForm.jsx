@@ -83,7 +83,7 @@ export default function StockForm() {
     <form onSubmit={handleSubmit} className="stock-form">
       <input
         type="text"
-        placeholder="Stock Symbol (e.g., AAPL)"
+        placeholder="Stock Symbol (e.g. AAPL)"
         className="form-input"
         value={form.symbol}
         onChange={(e) => setForm((f) => ({ ...f, symbol: e.target.value.toUpperCase() }))}
